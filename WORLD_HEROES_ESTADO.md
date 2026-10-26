@@ -123,7 +123,7 @@ Auditoría de 26/10/2026: caché `%APPDATA%/Unity/Asset Store-5.x`, lectura de m
 | Ataque | PENDIENTE por arma y clase, con agarres, tiempos y eventos válidos. |
 | Habilidad | PENDIENTE por habilidad aprobada y efectos correspondientes. |
 | Defensa | PENDIENTE de reglas, clips y transiciones. |
-| Daño | PENDIENTE de reacción visual enlazada al daño real. La reducción numérica de vida ya está comprobada. |
+| Daño | COMPLETADO y COMPROBADO para Kaeldor y Thorgrim: clip original Generic `hit_to_stomach` y adaptación por deltas de rotación sobre el rig propio de Thorgrim. `HeroMenuV2.ReceiveDamage` lo activa únicamente cuando baja la vida y ambos regresan al reposo original. PENDIENTE para los otros tres héroes y conexión al futuro motor Match-3. |
 | Victoria | PENDIENTE de selección de clip y conexión al resultado. |
 | Derrota | PENDIENTE de clip, transición y reglas de resultado. |
 
@@ -161,7 +161,7 @@ Inventariar clips de cada paquete, rig, Avatar, variantes de arma, root motion, 
 | 5 | Implementar economía y combate Match-3 conectados al store y estados de animación | PENDIENTE; depende de reglas/contenido. |
 | Técnica | Excepción interna de inicio `UnityEditor.Search.SearchDatabase` en algunas pruebas | COMPROBADO en logs; no impidió las pruebas de panel. PENDIENTE de diagnóstico específico; no borrar cachés a ciegas. |
 | Técnica | Avisos históricos de scripts ausentes en `Ficha_Kaeldor`, uGUI Selectable en recargas anteriores y APIs de editor obsoletas | Históricos documentados; vigencia actual PENDIENTE de auditoría específica. No atribuirlos a errores nuevos de los paneles. |
-| Técnica | `Kaeldor.asset` conserva un sufijo literal `i` en la línea hexadecimal `experienceRequirements` al leer el archivo actual | COMPROBADO por lectura en esta auditoría. El informe anterior describe una reparación y las pruebas XP pasan en Unity, pero queda PENDIENTE comprobar la serialización efectiva y su portabilidad. No corregir el asset durante este encargo documental ni dar la incidencia por resuelta. |
+| Técnica | Sufijo `i` de la tabla hexadecimal de XP | COMPROBADO y aclarado mediante carga y reserialización real en Unity 6000.6.4f1: Unity conserva el sufijo y los mismos 19 enteros 100…1900. La sospecha anterior de corrupción no se confirmó; no retirar el marcador ni alterar los valores. Evidencia en `Validation/DamageAnimation_20261026/Setup.txt`. |
 | Recuperación | `Assets/_Recovery/0.unity` | COMPROBADO anteriormente idéntico a la escena previa de Village. Conservado; no restaurar sobre el trabajo vigente sin comparar. |
 | Portabilidad | Tripo Bridge en `Packages/manifest.json` usa una ruta local de Descargas | COMPROBADO. PENDIENTE hacer portable en un encargo apropiado; no publicar credenciales ni asumir que otro equipo puede resolver esa ruta. |
 | Git | Muchos cambios de Unity y archivos nuevos siguen fuera del commit documental | COMPROBADO. PENDIENTE revisar dependencias, licencias, tamaño y datos sensibles antes de sincronizar el proyecto completo. |
@@ -188,6 +188,7 @@ Inventariar clips de cada paquete, rig, Avatar, variantes de arma, root motion, 
 | `HeroProgressStore.cs`, `HeroDevelopmentStore.cs`, `HeroDevelopmentService.cs`, `HeroEffectiveStats.cs`, `HeroResourcesBar.cs` en Runtime | Estado, operaciones, proyección de estadísticas y recursos. |
 | `AeryxCompanionMotion.cs`, `AeryxObjectIdle.cs` en Runtime | Presentación del compañero original. |
 | `Assets/Editor/WorldHeroesLargePanelsBuilder.cs`, `WorldHeroesLargePanelsValidation.cs`, `WorldHeroesGripPolish.cs`, `WorldHeroesTripoIntegration.cs` | Constructores y verificadores; inspeccionar condiciones y respaldos antes de ejecutarlos. |
+| `Assets/WorldHeroesV2/Presentation/Kaeldor_Reactions.controller`, `Thorgrim_Reactions.controller`, `Thorgrim_Damage.anim` y `Assets/Editor/WorldHeroesDamageAnimationIntegration.cs` | Controladores derivados del original con reacción al daño y regreso al mismo reposo; adaptación Generic de Thorgrim sin modificar posiciones/escala de huesos ni FBX. Preparación protegida para copia aislada. Se restaura el controlador original al liberar el modelo de Village. |
 | `Assets/RetargetingTrial/` | Ensayo separado, no rig de producción aprobado. |
 | `Assets/WorldHeroesV2/Scenes/HeroesV2_Test.unity` | Escena histórica de pruebas, no escena principal. |
 | `ArtSource/PanelesAprobados/Originales/`, `ArtSource/PanelesAprobados/` | Originales intactos, preparados e intermedios IA y salida 4K. |
@@ -201,9 +202,9 @@ Informes previos conservados: `AERYX_INTEGRATION_STATUS.md`, `HEROES_PANEL_STATU
 
 ## 12. Última entrega, siguiente tarea y sincronización
 
-**Última tarea de producto COMPLETADA y COMPROBADA:** encuadres propios en Información/Equipo/Evolución, fondo azul local nativo y Habilidades sin 3D superpuesto. 141 comprobaciones aisladas superadas; PNG, modelos, escena guardada y partida real intactos, según `Validation/PanelFraming_20261026/Preservation.json`.
+**Última tarea de producto COMPLETADA y COMPROBADA:** daño real conectado a las reacciones de Kaeldor y Thorgrim, con regreso a sus reposos y restauración del controlador original al liberar el modelo. Thorgrim reutiliza los deltas del clip de Kaeldor sobre 65 huesos coincidentes, partiendo de su pose aprobada; no se transfieren posiciones ni escalas. Controladores derivados, clip adaptado y definiciones verificados trasladados al proyecto principal, sin tocar FBX ni controladores fuente. Equipo ajusta la cámara incluyendo las armas montadas durante la animación; se corrigió el recorte del martillo detectado en la prueba visual. **153 comprobaciones aisladas superadas**, con movimiento real de columna, giro conservado, daño cero rechazado, vuelta a reposo, restauración de Village y regresión de los cinco héroes/paneles. Evidencia en `Validation/DamageAnimation_20261026/`; copia previa en `Backups/AnimationDamage_20261026`. Los encuadres y el fondo local anteriores siguen conservados. La reserialización confirmó que el sufijo `i` de XP lo conserva Unity: no se han cambiado requisitos ni hitos. La revisión artística fina de manos y nuevas animaciones sigue pendiente, y esto no constituye un motor de combate Match-3.
 
-**Última tarea de mantenimiento COMPLETADA:** creación de este registro, regla de mantenimiento en AGENTS y preparación de versionado documental. No se han integrado paquetes ni cambiado escenas/scripts del juego en esta tarea documental.
+**Última tarea de mantenimiento COMPLETADA:** ambos documentos sincronizados y comprobados en GitHub main, sin publicar el proyecto completo; registro actualizado con los avances de animación. No se han importado paquetes de terceros.
 
 **Siguiente tarea recomendada — PENDIENTE:** verificar visualmente los cinco héroes con los nuevos encuadres en Play de Village y ajustar contacto artístico de las armas sin alterar originales. Después, auditar los paquetes descargados y probar animaciones compatibles de Kaeldor/Thorgrim en aislamiento antes de conectarlas al juego. Recuperar en paralelo la documentación faltante de mundos y contenido; no inventarla.
 
@@ -226,3 +227,4 @@ No añadir en bloque `Backups`, `UserSettings`, logs, partidas reales, credencia
 | 26/10/2026 — ajuste visual | Encuadres distintos por panel y fondo local de Unity; originales intactos; 141 comprobaciones aisladas. |
 | 26/10/2026 — memoria permanente | Este archivo pasa a ser registro maestro; AGENTS exige leerlo y mantenerlo; alcance de siete mundos preservado aunque falten sus fichas. |
 | 26/10/2026 — sincronización autorizada | Ambos documentos comprobados en GitHub main por su hash de blob; sin publicar el proyecto ni reescribir historial. |
+| 26/10/2026 — daño de los guerreros | Reutilizado `hit_to_stomach` para Kaeldor y adaptado por rotaciones para Thorgrim, con controladores derivados y regreso a reposos aprobados. Corregido recorte del martillo en Equipo. 153 pruebas aisladas. La reserialización aclara el marcador `i` de XP sin cambiar los 19 valores. |
