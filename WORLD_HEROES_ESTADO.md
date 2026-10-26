@@ -51,7 +51,7 @@ Actualizar al finalizar cada encargo importante: fecha, estado real, decisiones 
 | Altherion | Mago | Original `Altherion_1/Altherion_1.fbx`; bastón derecho | COMPROBADO: brazo doblado, muñeca de agarre, bastón +40 % de longitud y −28 % de grosor respecto al estado anterior, con escala no uniforme e inclinación natural para no tapar la placa del nombre. FBX intacto. |
 | Shadows | Asesino | Original `fantasy_armored_warrior_3d_model/...fbx`, con rostro; dos dagas | COMPROBADO: rostro visible en los renders actuales, dos manos en empuñaduras, Grip corregido hacia centro del mango y muñecas orientadas para sujetarlo. No se ha creado un modelo nuevo. |
 | Lyriana | Arquera | Original `Lyriana/Lyriana.fbx`; arco izquierdo | COMPROBADO: hombro/codo/antebrazo y muñeca de agarre corregidos en Idle; dedos rodean el mango original del arco. |
-| Aeryx | Compañero de Kaeldor | `AeryxRiggedOriginal` / `AeryxOriginalCompanion.prefab` | COMPROBADO históricamente: solo con Kaeldor, cuatro apoyos, respiración/cabeza y giro independiente. En subpaneles se oculta su 3D porque el PNG ya incluye Aeryx. |
+| Aeryx | Compañero de Kaeldor | `AeryxRiggedOriginal` / `AeryxOriginalCompanion.prefab` | COMPROBADO históricamente: solo con Kaeldor, cuatro apoyos, respiración/cabeza y giro independiente. En el panel compacto vigente se conserva su 3D junto a Kaeldor; la ocultaci?n por PNG corresponde ?nicamente al dise?o grande rechazado. |
 
 **Aeryx:** el rig original tiene 51 huesos de skin, sin clips importados ni controles independientes de alas/cola/párpados. El reposo procedimental no equivale a vuelo o ataque. Estos estados siguen PENDIENTES; al introducir clips, evitar dos animadores escribiendo sobre los mismos huesos.
 
@@ -156,6 +156,9 @@ Inventariar clips de cada paquete, rig, Avatar, variantes de arma, root motion, 
 
 ## 10. Errores conocidos, pendientes y prioridades
 
+**Incidencia del editor observada el 27/10:** al salir de la sesi?n antigua despu?s de recargar scripts apareci? `IndexOutOfRangeException` de Unity UI `Selectable` al restaurar objetos del editor. La nueva entrada en Play y las pruebas de navegaci?n funcionaron; no se atribuye a un fallo resuelto ni se han borrado cach?s/escena. Investigar si se reproduce.
+
+
 | Prioridad | Tarea o incidencia | Estado y dependencia |
 | --- | --- | --- |
 | 1 | Aceptación visual del panel compacto y de los cinco héroes corregidos, particularmente Thorgrim, apoyo y agarres | COMPROBADO en Play aislado y renders; aceptación artística del usuario PENDIENTE. No reactivar ventanas grandes ni avanzar a Match-3. |
@@ -234,3 +237,5 @@ No añadir en bloque `Backups`, `UserSettings`, logs, partidas reales, credencia
 | 26/10/2026 — sincronización autorizada | Ambos documentos comprobados en GitHub main por su hash de blob; sin publicar el proyecto ni reescribir historial. |
 | 26/10/2026 — daño de los guerreros | Reutilizado `hit_to_stomach` para Kaeldor y adaptado por rotaciones para Thorgrim, con controladores derivados y regreso a reposos aprobados. Corregido recorte del martillo en Equipo. 153 pruebas aisladas. La reserialización aclara el marcador `i` de XP sin cambiar los 19 valores. |
 | 27/10/2026 — rediseño prioritario, sustituye navegación grande | El usuario exige panel compacto original con cuatro pestañas, un visor y datos/acciones contextuales. Quedan sustituidos los cuatro subpaneles grandes y sus encuadres independientes; recursos históricos conservados inactivos. Kaeldor se mantiene; prioridad real a brazos/apoyo de Thorgrim, bastón largo y fino, arco natural, Shadows con rostro y dagas por mangos. No avanzar a Match-3 hasta corregir panel y personajes. |
+
+| 27/10/2026 ? decisi?n definitiva de navegaci?n | Las cuatro pantallas grandes quedan RECHAZADAS. Exclusivamente cuatro botones INFERIORES: Informaci?n, Equipo, Habilidades y Evoluci?n; desactivar superiores duplicados. HUD compartido arriba, sin cubrir navegaci?n. Armas originales visibles identificadas sin inventar inventario. Correcciones art?sticas de cuatro h?roes siguen pendientes; Kaeldor intacto. Esta decisi?n sustituye expresamente las aprobaciones hist?ricas de ventanas grandes. |
